@@ -43,6 +43,10 @@ wordsCorpus = set(nltk.corpus.words.words())
 # May want to make same sentiment and correlation
 # calculations with data that hasn't been cleaned
 # then I can prove that cleaning the data helps.
+# May want to add soem more correlations such as
+# length of streak. 
+# Possibyl try to add some topic modeling with LDA
+# if I have time
 
 # Accepts a string, removes special characters,
 # removes URLs, tokenizes the string so that we
@@ -94,11 +98,11 @@ def getFreqDist(text):
 # the comments for a post into a single string.
 def getSubRedditPosts(team):
     titleCommentsDict={}
-    for submission in reddit.subreddit(team).hot(limit=50):
+    for submission in reddit.subreddit(team).hot(limit=5):
         commentString = ""
         print("LOOKING AT NEW POST\n")
         print("The post title is: " + submission.title + "\n")
-        print("Checking comments for this post\n")
+        # print("Checking comments for this post\n")
         for topLevelComment in submission.comments:
             if isinstance(topLevelComment, MoreComments):
                 continue
@@ -214,11 +218,21 @@ def plotData(dataDict):
         wins.append(teamDict["Wins"])
         averageSentiments.append(teamDict["Average Compound Score"])
     plt.scatter(wins, averageSentiments, alpha=0.5)
-    plt.show()    
+    plt.show() 
+
+# Predict the result of the next game based off
+# the average public sentiment.     
+def getGamePrediction(averageSentiment):
+    if averageSentiment > 0.5:
+        return "Win"
+    else:
+        return "Loss"   
     
 def main():
-    teamNames = ["Patriots", "Giants", "Jaguars", "Jets", "Titans", "Ravens", "Lions"]
-    subreddits = ["patriots", "nygiants", "jaguars", "nyjets", "Tennesseetitans", "ravens", "detroitlions"]
+    teamNames = ["Patriots", "Giants", "Jaguars", "Jets", "Titans", "Ravens", 
+                 "Lions", "Bears", "Steelers", "Bills", "Dolphins"]
+    subreddits = ["patriots", "nygiants", "jaguars", "nyjets", "Tennesseetitans", 
+                  "ravens", "detroitlions", "chicagobears", "steelers", "buffalobills", "miamidolphins"]
     
     # teamNames = ["Patriots"]
     # subreddits = ["patriots"]
@@ -235,17 +249,18 @@ def main():
     # calculate the sentiment for this teams text data, and add it 
     # to the dictionary of team data.
     for i in range(len(teamNames)):
+        print("Retrieving data and calculating average sentiment for " + str(teamNames[i]) + "\n")
         reddit.read_only = True
         data = getSubRedditPosts(subreddits[i])
         editedData = cleanSubRedditPosts(data)
-        # editedData = getStemListOfWords(editedData)
         averageCompound = sentimentAnalyzer(editedData)
         collection = getCollectionOfWords(editedData)
         freqDist = getFreqDist(collection)
         print("The average compound score for the " + str(teamNames[i]) + 
               " is: " + str(averageCompound) + "\n")
         teamDict[teamNames[i]]["Average Compound Score"] = averageCompound
-        teamDict[teamNames[i]]["Most Common Words"] = freqDist.most_common(3) 
+        teamDict[teamNames[i]]["Most Common Words"] = freqDist.most_common(5) 
+        teamDict[teamNames[i]]["Predicted Result of Next Game"] = getGamePrediction(averageCompound)
     pprint(teamDict)
     print("\n")
     calculateCorrelation(teamDict)

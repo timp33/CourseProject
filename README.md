@@ -51,6 +51,9 @@ This function receives a dictionary as output and prints two correlation values.
 def plotData(dataDict):
 This function receives a dictionary as input and plots a scatter plot. The scatter plot contains data points for every wins/average sentiment pair. 
 
+def getGamePrediction(averageSentiment):
+This function receives an average sentiment value as input and returns a prediction for the result of the team's next game. 
+
 def main():
 This function ties everything together. The following steps provide an overview.
 1) Lists are created for the NFL teams that this application is going to provide sentiment analysis for. The first list contains formatted team names. The second list contains the applicable subreddit names for each team that don't follow the same format (some specify the city in addition to the team name)
@@ -70,7 +73,7 @@ For each team ends...
 3) Detailed Instructions on how to install and run software
 
 Files needed to run application.
-This application is contained within a single python file titled Main.py. In addition to this python file you'll also need the json file located at data/nfl.json. Please verify that your directory contains both the Main.py application file and the data/nfl.json json file.
+Download the contents of the repository and navigate to this directory on your computer. This application is contained within a single python file titled Main.py. In addition to this python file you'll also need the json file located at data/nfl.json. Please verify that your directory contains both the Main.py application file and the data/nfl.json json file.
 
 Setting up your environment.
 In order to download the necessary python modules to run this application you'll need to run the following set of commands. 
@@ -82,8 +85,7 @@ In order to download the necessary python modules to run this application you'll
 > pip install json (maybe not this one)
 > pip install numpy
 > pip install scipy
->pip install matplotlib
-*** Need to determine what other nltk.download('words') calls are needed
+> pip install matplotlib
 
 Running the program.
 > python Main.py
@@ -94,7 +96,7 @@ In your console, you should see several different outputs after running the prog
 -----------------------------------
 
 4) Evaluation of Results and Project 
-According to the output of my application, a team's win total isn't correlated to the sentiment of the general opinion while a team's most recent outcome (win/loss) is correlated to the sentiment of the general opinion. I expected a team's most recent outcome to have a high correlation with the sentiment of the general opinion. This is because my application retrieves the most recent posts for each of the NFL team subreddits. For example, if a team recently lost, then its likely that people will make negative posts related to the loss. I was surprised by the low correlation between a team's win total and the sentiment of the general opinion. 
+According to the output of my application, a team's win total is positively correlated to the sentiment of the general opinion and a team's most recent outcome (win/loss) is positively correlated to the sentiment of the general opinion. I expected a team's most recent outcome to have a high positive correlation with the sentiment of the general opinion. This is because my application retrieves the most recent posts for each of the NFL team subreddits. For example, if a team recently lost, then its likely that people will make negative posts related to the loss. I was surprised by the low positive correlation between a team's win total and the sentiment of the general opinion. I believe this is due to the most recent game having a large impact on a fans opinion. 
 I was able to complete a majority of the application outlined in my original proposal. My application fetches text data from an online source, cleans the data, performs sentiment analysis on the data, makes predictions based off the average sentiment, and analyzes the correlation between a team's performance and the public opinion.
 There were some parts of the initial proposal that I was unable to complete. Mainly, this includes analyzing the accuracy of my predictions. Currently, the application predicts the outcome of each team's next game. Since the next game has yet to occur, I can't determine the accuracy of my prediction. If I had more time, I could have tried to fetch old text data to make predictions on game results that have already occurred. 
 
