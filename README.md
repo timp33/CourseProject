@@ -7,13 +7,13 @@ This README document is split into the following sections.
 3) Detailed Instructions on how to install and run software
 4) Evaluation of Results and Project
 
-1) Overview of the function of the code
+1) [Overview of Function of Code] Overview of the function of the code
 
 This application uses the Python Reddit API Wrapper (PRAW) to perform sentiment analysis on the general opinion found in different NFL team subreddits. For a specified set of NFL teams, the corresponding subreddit is analyzed to retrieve text data for a specified number of posts. For each post in the NFL team's subreddit, a sentiment score is calculated using The Natural Language Toolkit's Sentiment Intensity Analyzer. Each of these scores is used to calculate an average sentiment score for the entire NFL team's subreddit (representing the sentiment of general opinion on the team). The sportradar API is used to retrieve current NFL statistics. This application uses the API to retrieve a team's win total and the outcome of their most recent game for each of the specified teams. These statistics are compared to the average sentiment score. Correlations are calculated and displayed for (wins/average sentiment) and (most recent outcome/average sentiment). The application also displays a dictionary containing wins, most recent outcome, average sentiment, and most common words for each specified team.
 
------------------------------------
+-----------------------------------------------------------
 
-2) Documentation of how the software is implemented 
+2) [Implementation Documentation] Documentation of how the software is implemented 
 
 def cleanText(text):
 This function accepts a string as input and returns a cleaned string. Data cleaning techniques used include removing parenthesis, removing URLs, removing punctuation, and removing words that don't belong to the corpus. 
@@ -52,25 +52,32 @@ def plotData(dataDict):
 This function receives a dictionary as input and plots a scatter plot. The scatter plot contains data points for every wins/average sentiment pair. 
 
 def getGamePrediction(averageSentiment):
-This function receives an average sentiment value as input and returns a prediction for the result of the team's next game. 
+This function receives an average sentiment value as input and returns a prediction for the result of the team's next game.
+
+def getMostFavoredTeam(dataDict):
+This function receives a dictionary as input and prints a team name. The team name printed will have the highest public sentiment.
+
+def getLeastFavoredTeam(dataDict):
+This function receives a dictionary as input and prints a team name. The team name printed will have the lowest public sentiment.
 
 def main():
 This function ties everything together. The following steps provide an overview.
-1) Lists are created for the NFL teams that this application is going to provide sentiment analysis for. The first list contains formatted team names. The second list contains the applicable subreddit names for each team that don't follow the same format (some specify the city in addition to the team name)
+1) Lists are created for the NFL teams that this application is going to provide sentiment analysis for. The first list contains formatted team names. The second list contains the applicable subreddit names for each team that don't follow the same format (some subreddits specify the city in addition to the team name ex. jets vs. nyjets)
 2) Json file is parsed. A dictionary containing statistics for each team is returned. 
 For each team...
 3) Posts are retrieved from the specified subreddit. This includes post title and post comments. 
 4) Data cleaning techniques are performed on the retrieved subreddit posts. 
 5) Sentiment Analysis is performed on each post from the subreddit. An average sentiment value is retrieved.
-6) A collection of words is retrieved after combining every comment from every post in the specific subreddit
-7) A frequency distribution is calculated for the entire collection. 
+6) A collection of words is retrieved after combining every comment from every post in the specific subreddit.
+7) A frequency distribution is calculated for the entire collection from this team's subreddit. 
 For each team ends...
-8) The program outputs the dictionary containing the statistics for each team (wins, streak, most common words, average sentiment)
-9) The program outputs the correlation between wins/average sentiment and most recent outcome/average sentiment
+8) The program outputs the dictionary containing the statistics for each team (wins, streak, most common words, average sentiment, points for, and predicted result of next game)
+9) The program outputs the correlation between (wins vs average sentiment), (most recent outcome vs. average sentiment), and (points for vs. average sentiment)
+10) The program outputs the team with the highest sentiment and the team with the lowest sentiment.
 
------------------------------------
+-----------------------------------------------------------
 
-3) Detailed Instructions on how to install and run software
+3) [Usage Documentation] Detailed Instructions on how to install and run software
 
 Files needed to run application.
 Download the contents of the repository and navigate to this directory on your computer. This application is contained within a single python file titled Main.py. In addition to this python file you'll also need the json file located at data/nfl.json. Please verify that your directory contains both the Main.py application file and the data/nfl.json json file.

@@ -25,6 +25,7 @@ user_agent="unix:com.example.nflapp:v1.1 (by /u/timpowell21)",
 nltk.download('punkt')
 nltk.download('words')
 nltk.download('vader_lexicon')
+nltk.download('stopwords')
 
 stopwords = nltk.corpus.stopwords.words("english")
 wordsCorpus = set(nltk.corpus.words.words())
@@ -79,7 +80,7 @@ def getStemListOfWords(dataDict):
 
 # Accepts a list of words and uses NLTKs list of 
 # stopwords to remove any stop words from the 
-# list and returns the words as a string
+# list and returns the words as a string.
 def removeStopwords(text):
     textStopWordsRemoved = ""
     for word in text:
@@ -90,23 +91,23 @@ def removeStopwords(text):
 # Accepts a string and returns a frequency distribution.
 def getFreqDist(text):
     words: list[str] = nltk.word_tokenize(text)
-    freqDist = nltk.FreqDist(words)
-    return freqDist
+    fd = nltk.FreqDist(words)
+    return fd
 
 # Returns a dictionary of title-comment key-value
 # pairs from the specified subreddit. Concatenates 
 # the comments for a post into a single string.
 def getSubRedditPosts(team):
     titleCommentsDict={}
-    for submission in reddit.subreddit(team).hot(limit=5):
+    for submission in reddit.subreddit(team).hot(limit=1):
         commentString = ""
         print("LOOKING AT NEW POST\n")
         print("The post title is: " + submission.title + "\n")
         # print("Checking comments for this post\n")
-        for topLevelComment in submission.comments:
-            if isinstance(topLevelComment, MoreComments):
+        for redditComment in submission.comments:
+            if isinstance(redditComment, MoreComments):
                 continue
-            comment = topLevelComment.body.lower()
+            comment = redditComment.body.lower()
             commentString += " " + str(comment)
         titleCommentsDict[submission.title] = commentString    
     return titleCommentsDict
@@ -174,9 +175,11 @@ def parseJson(jsonfile, teamNames):
                     wins = team["wins"]
                     streak = team["streak"]
                     streakType = streak["type"]
+                    pointsFor = team["points_for"]
                     winsDict[name] = {}
                     winsDict[name]["Team"] = name
                     winsDict[name]["Wins"] = wins
+                    winsDict[name]["Points For"] = pointsFor
                     if streakType == "win":
                         winsDict[name]["Streak"] = True
                     else:
@@ -185,6 +188,8 @@ def parseJson(jsonfile, teamNames):
      
 
 # Fetch the nfl data json using the sportradar api.
+# API key removed from function for security. Json file
+# stored at data/nfl.json.
 def getJson():
     response = requests.get("https://api.sportradar.us/nfl/official/trial/v7/en/seasons/2021/REG/standings/season.json?api_key=mdqex7r4gdjvgj574cnmsatv")
     with open('data/nfl.json', 'wb') as f:
@@ -192,21 +197,29 @@ def getJson():
         return f
 
 # Calculate the correlation between each team's 
-# wins and average sentiment.     
+# wins and public sentiment. Calculate the 
+# correlation between each team's most recent 
+# outcome and public sentiment.    
 def calculateCorrelation(dataDict):
     wins = []
     averageSentiments = []
     streak = []
+    pointsFor = []
     for team in dataDict:
         teamDict = dataDict[team]
         wins.append(teamDict["Wins"])
         averageSentiments.append(teamDict["Average Compound Score"])
         streak.append(teamDict["Streak"])
-    
+        pointsFor.append(teamDict["Points For"])
+    print("This application uses the Pearson Correlation Coefficient to compare the correlation between (team's win total vs. public sentiment) and (team's most recent outcome vs. public sentiment)." + "\n")
+    print("The range for the Pearson Correlation Coefficient is [-1,1]. A -1 means there is a strong negative correlation while a 1 means there is a strong positive correlation." + "\n")
+    print("Pearson Correlation Coefficient Results:" + "\n")
     r, p = scipy.stats.pearsonr(wins, averageSentiments)
-    print("The Pearson correlation coefficient between wins and sentiment is: \n" + str(r) + "\n")
+    print("The Pearson Correlation Coefficient between wins and public sentiment is: \n" + str(r) + "\n")
     r, p = scipy.stats.pearsonr(streak, averageSentiments)
-    print("The Pearson correlation coefficient between streak and sentiment is: \n" + str(r) + "\n")
+    print("The Pearson Correlation Coefficient between most recent outcome and public sentiment is: \n" + str(r) + "\n")
+    r, p = scipy.stats.pearsonr(pointsFor, averageSentiments)
+    print("The Pearson Correlation Coefficient between points for and public sentiment is: \n" + str(r) + "\n")
 
 # Plot the wins and average sentiments in a
 # scatter plot. 
@@ -226,19 +239,44 @@ def getGamePrediction(averageSentiment):
     if averageSentiment > 0.5:
         return "Win"
     else:
-        return "Loss"   
+        return "Loss"
+
+# Determine which team had the highest public sentiment.    
+def getMostFavoredTeam(dataDict):
+    highestSentiment = 0
+    highestSentimentTeam = ""
+    for team in dataDict:
+        teamDict = dataDict[team]
+        sentiment = teamDict["Average Compound Score"]
+        if sentiment > highestSentiment:
+            highestSentiment = sentiment
+            highestSentimentTeam = teamDict["Team"] 
+    print("The team with the highest public sentiment is the " + highestSentimentTeam + "\n")
+
+# Determine which team had the lowest public sentiment.    
+def getLeastFavoredTeam(dataDict):
+    lowestSentiment = 0
+    lowestSentimentTeam = ""
+    for team in dataDict:
+        teamDict = dataDict[team]
+        sentiment = teamDict["Average Compound Score"]
+        if sentiment < lowestSentiment:
+            lowestSentiment = sentiment
+            lowestSentimentTeam = teamDict["Team"] 
+    print("The team with the lowest public sentiment is the " + lowestSentimentTeam + "\n")
+        
+       
     
 def main():
     teamNames = ["Patriots", "Giants", "Jaguars", "Jets", "Titans", "Ravens", 
-                 "Lions", "Bears", "Steelers", "Bills", "Dolphins"]
+                "Lions", "Bears", "Steelers", "Bills", "Dolphins"]
     subreddits = ["patriots", "nygiants", "jaguars", "nyjets", "Tennesseetitans", 
-                  "ravens", "detroitlions", "chicagobears", "steelers", "buffalobills", "miamidolphins"]
-    
-    # teamNames = ["Patriots"]
-    # subreddits = ["patriots"]
+                 "ravens", "detroitlions", "chicagobears", "steelers", "buffalobills", "miamidolphins"]
     
     # After retrieving the json, this doesn't need to be
-    # called again.
+    # called again. If we call it every time the program is
+    # run, then I'll run out of API calls. Only call when the
+    # statistics are outdated (another game has occured).
     # xml = getJson()
 
     teamDict = parseJson('data/nfl.json', teamNames)
@@ -264,6 +302,8 @@ def main():
     pprint(teamDict)
     print("\n")
     calculateCorrelation(teamDict)
+    getMostFavoredTeam(teamDict)
+    getLeastFavoredTeam(teamDict)
         
 if __name__ == '__main__':
     main()
