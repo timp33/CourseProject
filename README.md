@@ -85,13 +85,21 @@ Download the contents of the repository and navigate to this directory on your c
 Setting up your environment.
 In order to download the necessary python modules to run this application you'll need to run the following set of commands. 
 > pip install praw
+
 > pip install nltk
+
 > pip install pprint (maybe not this one)
+
 > pip install re (maybe not this one)
+
 > pip install requests
+
 > pip install json (maybe not this one)
+
 > pip install numpy
+
 > pip install scipy
+
 > pip install matplotlib
 
 Running the program.
