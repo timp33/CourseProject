@@ -208,7 +208,7 @@ def calculateCorrelation(dataDict):
     for team in dataDict:
         teamDict = dataDict[team]
         wins.append(teamDict["Wins"])
-        averageSentiments.append(teamDict["Average Compound Score"])
+        averageSentiments.append(teamDict["Average Sentiment Score"])
         streak.append(teamDict["Streak"])
         pointsFor.append(teamDict["Points For"])
     print("This application uses the Pearson Correlation Coefficient to compare the correlation between (team's win total vs. public sentiment) and (team's most recent outcome vs. public sentiment)." + "\n")
@@ -229,14 +229,14 @@ def plotData(dataDict):
     for team in dataDict:
         teamDict = dataDict[team]
         wins.append(teamDict["Wins"])
-        averageSentiments.append(teamDict["Average Compound Score"])
+        averageSentiments.append(teamDict["Average Sentiment Score"])
     plt.scatter(wins, averageSentiments, alpha=0.5)
     plt.show() 
 
 # Predict the result of the next game based off
 # the average public sentiment.     
 def getGamePrediction(averageSentiment):
-    if averageSentiment > 0.5:
+    if averageSentiment > 0.3:
         return "Win"
     else:
         return "Loss"
@@ -247,7 +247,7 @@ def getMostFavoredTeam(dataDict):
     highestSentimentTeam = ""
     for team in dataDict:
         teamDict = dataDict[team]
-        sentiment = teamDict["Average Compound Score"]
+        sentiment = teamDict["Average Sentiment Score"]
         if sentiment > highestSentiment:
             highestSentiment = sentiment
             highestSentimentTeam = teamDict["Team"] 
@@ -259,7 +259,7 @@ def getLeastFavoredTeam(dataDict):
     lowestSentimentTeam = ""
     for team in dataDict:
         teamDict = dataDict[team]
-        sentiment = teamDict["Average Compound Score"]
+        sentiment = teamDict["Average Sentiment Score"]
         if sentiment < lowestSentiment:
             lowestSentiment = sentiment
             lowestSentimentTeam = teamDict["Team"] 
@@ -294,9 +294,9 @@ def main():
         averageCompound = sentimentAnalyzer(editedData)
         collection = getCollectionOfWords(editedData)
         freqDist = getFreqDist(collection)
-        print("The average compound score for the " + str(teamNames[i]) + 
+        print("The average sentiment score for the " + str(teamNames[i]) + 
               " is: " + str(averageCompound) + "\n")
-        teamDict[teamNames[i]]["Average Compound Score"] = averageCompound
+        teamDict[teamNames[i]]["Average Sentiment Score"] = averageCompound
         teamDict[teamNames[i]]["Most Common Words"] = freqDist.most_common(5) 
         teamDict[teamNames[i]]["Predicted Result of Next Game"] = getGamePrediction(averageCompound)
     pprint(teamDict)
