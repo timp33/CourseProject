@@ -1,17 +1,17 @@
 Title: NFL Team Reddit Sentiment Analyzer
 
+PROJECT PRESENTATION LINKS: 
+
+BOX: https://uofi.box.com/s/a16ls7nh8qwezx8l2k4f8s1d0z867yrg
+
+GOOGLE DRIVE: https://drive.google.com/file/d/1j1UsosUmW6z-KpoA6Szv33gBcYFyaUwr/view?usp=sharing
+
 README Outline:
 This README document is split into the following sections.
 1) Overview of the function of the code
 2) Documentation of how the software is implemented
 3) Detailed Instructions on how to install and run software
 4) Evaluation of Results and Project
-
-PROJECT PRESENTATION LINKS: 
-
-BOX: https://uofi.box.com/s/a16ls7nh8qwezx8l2k4f8s1d0z867yrg
-
-GOOGLE DRIVE: https://drive.google.com/file/d/1j1UsosUmW6z-KpoA6Szv33gBcYFyaUwr/view?usp=sharing
 
 -----------------------------------------------------------
 
