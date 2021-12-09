@@ -78,7 +78,7 @@ def getFreqDist(text):
 # the comments for a post into a single string.
 def getSubRedditPosts(team):
     titleCommentsDict={}
-    for submission in reddit.subreddit(team).hot(limit=20):
+    for submission in reddit.subreddit(team).hot(limit=10):
         commentString = ""
         print("LOOKING AT NEW POST\n")
         print("The post title is: " + submission.title + "\n")
