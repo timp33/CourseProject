@@ -1,3 +1,8 @@
+
+-----------------------------------------------------------
+FINAL REPORT/DOCUMENTATION
+-----------------------------------------------------------
+
 Title: NFL Team Reddit Sentiment Analyzer
 
 PROJECT PRESENTATION LINKS: 
