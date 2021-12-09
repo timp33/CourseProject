@@ -287,6 +287,8 @@ def main():
     calculateCorrelation(teamDict)
     getMostFavoredTeam(teamDict)
     getLeastFavoredTeam(teamDict)
+    print("PROGRAM FINISHED RUNNING \n")
+    print("Reference the above outputs for team statistics, predictions, sentiment scores, and correlation scores.")
         
 if __name__ == '__main__':
     main()
