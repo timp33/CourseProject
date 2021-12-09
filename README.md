@@ -8,6 +8,7 @@ This README document is split into the following sections.
 4) Evaluation of Results and Project
 
 
+-----------------------------------------------------------
 
 1) [Overview of Function of Code] Overview of the function of the code
 
