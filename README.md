@@ -87,6 +87,10 @@ Download the contents of the repository and navigate to this directory on your c
 
 Setting up your environment.
 In order to download the necessary python modules to run this application you'll need to run the following set of commands. 
+> curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+
+> python get-pip.py
+
 > pip install praw
 
 > pip install nltk
