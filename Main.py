@@ -1,5 +1,3 @@
-# define function to get num pages of posts from a subreddit, start collecting at a defined after
-#import requests
 import praw
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
@@ -29,25 +27,6 @@ nltk.download('stopwords')
 
 stopwords = nltk.corpus.stopwords.words("english")
 wordsCorpus = set(nltk.corpus.words.words())
-
-# May want to add using a stemmer too.
-# Need to work on removing punctuation.
-# Need to add normalization.
-# What is the expected outcome and how 
-# do I plan on evaluating my work.
-# Add graph to look at wins vs. average
-# sentiment.
-# Look through tutorials I was using to see
-# if I could add anything else (another model,
-# topic analysis, additional stuff related to 
-# main subjects learned from course).
-# May want to make same sentiment and correlation
-# calculations with data that hasn't been cleaned
-# then I can prove that cleaning the data helps.
-# May want to add soem more correlations such as
-# length of streak. 
-# Possibyl try to add some topic modeling with LDA
-# if I have time
 
 # Accepts a string, removes special characters,
 # removes URLs, tokenizes the string so that we
@@ -99,7 +78,7 @@ def getFreqDist(text):
 # the comments for a post into a single string.
 def getSubRedditPosts(team):
     titleCommentsDict={}
-    for submission in reddit.subreddit(team).hot(limit=1):
+    for submission in reddit.subreddit(team).hot(limit=20):
         commentString = ""
         print("LOOKING AT NEW POST\n")
         print("The post title is: " + submission.title + "\n")
@@ -112,6 +91,8 @@ def getSubRedditPosts(team):
         titleCommentsDict[submission.title] = commentString    
     return titleCommentsDict
 
+# Combines all words from each post for a specific
+# team into one collection. 
 def getCollectionOfWords(dataDict):
     collection = ""
     for key, value in dataDict.items():
@@ -199,7 +180,9 @@ def getJson():
 # Calculate the correlation between each team's 
 # wins and public sentiment. Calculate the 
 # correlation between each team's most recent 
-# outcome and public sentiment.    
+# outcome and public sentiment. Calculate the 
+# correlation between each team's points for 
+# total and public sentiment.  
 def calculateCorrelation(dataDict):
     wins = []
     averageSentiments = []
@@ -255,7 +238,7 @@ def getMostFavoredTeam(dataDict):
 
 # Determine which team had the lowest public sentiment.    
 def getLeastFavoredTeam(dataDict):
-    lowestSentiment = 0
+    lowestSentiment = 1
     lowestSentimentTeam = ""
     for team in dataDict:
         teamDict = dataDict[team]
