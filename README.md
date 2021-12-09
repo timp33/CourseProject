@@ -124,7 +124,7 @@ Running the program.
 
 
 Program output. 
-In your console, you should see several different outputs after running the program. The title for each post will be displayed as the application retrieves data from reddit (this output isn't important). At the end, the application will output the dictionary of statistics and correlation scores. In each team's dictionary you'll find several statistics including the average sentiment and the predicted outcome of the next game. 
+In your console, you should see several different outputs after running the program. The title for each post will be displayed as the application retrieves data from reddit (this output isn't important). At the end, the application will output the dictionary of statistics and correlation scores. In each team's dictionary you'll find several statistics including the average sentiment and the predicted outcome of the next game. The last output from the program will include the team with the highest sentiment and the team with the lowest sentiment. Once you see this, the program has finished running.
 
 -----------------------------------------------------------
 
