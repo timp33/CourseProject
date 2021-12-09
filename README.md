@@ -1,12 +1,17 @@
 Title: NFL Team Reddit Sentiment Analyzer
 
+PROJECT PRESENTATION LINKS: 
+
+BOX: https://uofi.box.com/s/a16ls7nh8qwezx8l2k4f8s1d0z867yrg
+
+GOOGLE DRIVE: https://drive.google.com/file/d/1j1UsosUmW6z-KpoA6Szv33gBcYFyaUwr/view?usp=sharing
+
 README Outline:
 This README document is split into the following sections.
 1) Overview of the function of the code
 2) Documentation of how the software is implemented
 3) Detailed Instructions on how to install and run software
 4) Evaluation of Results and Project
-
 
 -----------------------------------------------------------
 
@@ -112,13 +117,14 @@ In order to download the necessary python modules to run this application you'll
 Running the program.
 > python Main.py
 
+
 Program output. 
 In your console, you should see several different outputs after running the program. The title for each post will be displayed as the application retrieves data from reddit (this output isn't important). At the end, the application will output the dictionary of statistics and correlation scores. In each team's dictionary you'll find several statistics including the average sentiment and the predicted outcome of the next game. 
 
 -----------------------------------------------------------
 
 4) Evaluation of Results and Project 
-According to the output of my application, a team's win total is positively correlated to the sentiment of the public opinion, a team's most recent outcome (win/loss) is positively correlated to the sentiment of the public opinion, and a team's points for total (total amount of points scored in the season) is positively related to the sentiment of the public opinion. I expected a team's most recent outcome to have a high positive correlation with the sentiment of the public opinion. This is because my application retrieves the most recent posts for each of the NFL team subreddits. For example, if a team recently lost, then its likely that fans will make negative posts related to the loss. I was surprised by the low positive correlation between a team's win total and the sentiment of the public opinion. I believe this is due to the most recent game having a large impact on a fans opinion. I also expected the positive correlation between points for and public sentiment. The goal of an NFL game is to score points, so if a team has a high points for total, that means they've been successful. This would lead to a positive public opinion
+According to the output of my application (when the data set is large enough), a team's win total is positively correlated to the sentiment of the public opinion, a team's most recent outcome (win/loss) is positively correlated to the sentiment of the public opinion, and a team's points for total (total amount of points scored in the season) is positively related to the sentiment of the public opinion. I expected a team's most recent outcome to have a high positive correlation with the sentiment of the public opinion. This is because my application retrieves the most recent posts for each of the NFL team subreddits. For example, if a team recently lost, then its likely that fans will make negative posts related to the loss. I was surprised by the low positive correlation between a team's win total and the sentiment of the public opinion. I believe this is due to the most recent game having a large impact on a fans opinion. I also expected the positive correlation between points for and public sentiment. The goal of an NFL game is to score points, so if a team has a high points for total, that means they've been successful. This would lead to a positive public opinion
 I was able to complete a majority of the application outlined in my original proposal. My application fetches text data from an online source, cleans the data, performs sentiment analysis on the data, makes predictions based off the average sentiment, and analyzes the correlation between a team's statistics and the public opinion for that team.
 There were some parts of the initial proposal that I was unable to complete. Mainly, this includes analyzing the accuracy of my predictions. Currently, the application predicts the outcome of each team's next game. Since the next game has yet to occur, I can't determine the accuracy of my prediction. If I had more time, I could have tried to fetch old text data to make predictions on game results that have already occurred.
 If I was given more time to work on this application I would have expanded several things. First off, I would have generated a data set of negative/positive opinions from reddit. This would have allowed me to train a model that could have been used to perform the sentiment analysis. I had a hard time finding a pre-existing data set that fir the criteria I was looking for. Also, I would have liked to expand this application to accept command line arguments from the user. The command line arguments would have included the sport the user wished to analyze along with the teams from that sport.  
